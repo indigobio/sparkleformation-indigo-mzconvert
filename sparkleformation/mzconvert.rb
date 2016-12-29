@@ -48,7 +48,7 @@ EOF
            :record => 'mzconvert',
            :target => :mzconvert_elastic_load_balancing_load_balancer,
            :domain_name => ENV['private_domain'],
-           :attr => 'CanonicalHostedZoneName',
+           :attr => 'DNSName',
            :ttl => '60'
   )
 end

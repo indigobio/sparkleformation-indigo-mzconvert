@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-ebs-volumes.git
-  revision: cdc321cc5fb0d5f78f20fa6e6295ed8b810a2f95
+  revision: ee4b965ec6431bcd61a8770a038328269f30914b
   specs:
     sparkle-pack-aws-ebs-volumes (0.0.1)
       aws-sdk-core (~> 2)

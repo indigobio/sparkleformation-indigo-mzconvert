@@ -1,5 +1,5 @@
 ENV['sg']                 ||= 'private_sg'
-ENV['chef_run_list']      ||= 'role[base],role[mzconvert]'
+ENV['chef_run_list']      ||= 'role[mzconvert]'
 ENV['lb_name']            ||= "#{ENV['org']}-#{ENV['environment']}-mzconvert-elb"
 ENV['notification_topic'] ||= "#{ENV['org']}_#{ENV['environment']}_deregister_chef_node"
 

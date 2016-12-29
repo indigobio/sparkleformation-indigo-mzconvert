@@ -19,7 +19,7 @@ some stack parameters:
 
 | Parameter | Default Value | Purpose |
 |-----------|---------------|---------|
-| ChefRunlist | role[base],role[mzconvert] | No need to change |
+| ChefRunlist | role[mzconvert] | No need to change |
 | ChefServer | https://api.opscode.com/organizations/product\_dev | No need to change |
 | ChefValidationClientName | product\_dev-validator | No need to change |
 | ChefVersion | 12.4.0 | No need to change |

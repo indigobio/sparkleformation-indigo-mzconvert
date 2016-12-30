@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: https://github.com/gswallow/sparkle-pack-aws-instance-types.git
-  revision: 043fce0067ffed7929623ca94018670397f40a7a
+  revision: dbdb287de6ea829ae4f69e185fd0fc8b4204bc8b
   specs:
     sparkle-pack-aws-instance-types (0.0.1)
 
@@ -60,7 +60,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     attribute_struct (0.3.4)
       bogo (>= 0.1.31, < 0.3.0)
-    aws-sdk-core (2.6.42)
+    aws-sdk-core (2.6.43)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
     aws-sigv4 (1.0.0)

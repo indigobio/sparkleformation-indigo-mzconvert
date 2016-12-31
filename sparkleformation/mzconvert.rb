@@ -35,9 +35,6 @@ EOF
           )
 
   dynamic!(:auto_scaling_group, 'mzconvert',
-           :min_size => 0,
-           :desired_capacity => 1,
-           :max_size => 1,
            :launch_config => :mzconvert_auto_scaling_launch_configuration,
            :subnet_ids => registry!(:my_private_subnet_ids),
            :load_balancers => _array(ref!(:mzconvert_elastic_load_balancing_load_balancer)),

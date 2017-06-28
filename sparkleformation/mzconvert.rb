@@ -1,5 +1,5 @@
 ENV['sg']                 ||= 'private_sg'
-ENV['chef_run_list']      ||= 'role[mzconvert]'
+ENV['chef_run_list']      ||= 'recipe[ascent_monitoring::mzconvert]'
 ENV['lb_name']            ||= "#{ENV['org']}-#{ENV['environment']}-mzconvert-elb"
 
 SparkleFormation.new('couchbase').load(:base, :win2016_ami, :ssh_key_pair, :git_rev_outputs).overrides do

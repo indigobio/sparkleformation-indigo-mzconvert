@@ -25,8 +25,8 @@ EOF
   )
 
   dynamic!(:launch_config, 'slowconvert',
-           :iam_instance_profile => 'MzconvertIAMInstanceProfile',
-           :iam_role => 'MzconvertIAMRole',
+           :iam_instance_profile => 'SlowconvertIAMInstanceProfile',
+           :iam_role => 'SlowconvertIAMRole',
            :create_ebs_volumes => false,
            :volume_count => ENV['volume_count'].to_i,
            :volume_size => ENV['volume_size'].to_i,

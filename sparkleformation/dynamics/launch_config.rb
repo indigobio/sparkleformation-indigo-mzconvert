@@ -4,7 +4,6 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
   _config[:iam_instance_profile] ||= "#{_name}_i_a_m_instance_profile".to_sym
   _config[:iam_role]             ||= "#{_name}_i_a_m_role".to_sym
   _config[:chef_run_list]        ||= 'role[base]'
-  _config[:chef_version]         ||= '12.4.0'
 
   parameters("#{_name}_instance_type".to_sym) do
     type 'String'
@@ -111,14 +110,12 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
                        )
   end
 
-  dynamic!(:auto_scaling_launch_configuration, _name).registry!(:windows_chef_client, _name,
+  dynamic!(:auto_scaling_launch_configuration, _name).registry!(:windows_chef_solo, _name,
            :chef_bucket => registry!(:my_s3_bucket, 'chef'),
-           :chef_server => ref!(:chef_server),
-           :chef_version => ref!(:chef_version),
            :chef_run_list => ref!("#{_name}_chef_run_list".to_sym),
            :iam_role => ref!(_config[:iam_role]),
-           :chef_validation_client => ref!(:chef_validation_client_name),
-           :chef_data_bag_secret => true
+           :chef_data_bag_secret => true,
+           :cookbook_tarball => 'mzconvert/cookbooks.tar.gz'
           )
 
   dynamic!(:auto_scaling_launch_configuration, _name).depends_on "#{_name.capitalize}IAMInstanceProfile"

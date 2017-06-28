@@ -24,14 +24,6 @@ SparkleFormation.dynamic(:auto_scaling_group) do |_name, _config = {}|
     constraint_description "Must be a number #{_config.fetch(:min_size, 100)} or lower"
   end
 
-  parameters("#{_name}_notification_topic".to_sym) do
-    type 'String'
-    allowed_pattern "[\\x20-\\x7E]*"
-    default _config[:notification_topic] || 'none'
-    description 'SNS notification topic to send on instance termination'
-    constraint_description 'can only contain ASCII characters'
-  end
-
   dynamic!(:auto_scaling_auto_scaling_group, _name).properties do
     availability_zones get_azs!
     min_size ref!("#{_name}_min_size".to_sym)
@@ -41,10 +33,6 @@ SparkleFormation.dynamic(:auto_scaling_group) do |_name, _config = {}|
     launch_configuration_name ref!(_config[:launch_config])
     if _config.has_key?(:load_balancers)
       load_balancer_names _array(*_config[:load_balancers])
-    end
-    notification_configuration do
-      data!['TopicARN'] = ref!("#{_name}_notification_topic".to_sym) # TODO
-      notification_types _array("autoscaling:EC2_INSTANCE_TERMINATE")
     end
     tags _array(
            -> {

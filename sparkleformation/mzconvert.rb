@@ -1,9 +1,8 @@
 ENV['sg']                 ||= 'private_sg'
 ENV['chef_run_list']      ||= 'role[mzconvert]'
 ENV['lb_name']            ||= "#{ENV['org']}-#{ENV['environment']}-mzconvert-elb"
-ENV['notification_topic'] ||= "#{ENV['org']}_#{ENV['environment']}_deregister_chef_node"
 
-SparkleFormation.new('couchbase').load(:base, :chef_base, :win2016_ami, :ssh_key_pair, :git_rev_outputs).overrides do
+SparkleFormation.new('couchbase').load(:base, :win2016_ami, :ssh_key_pair, :git_rev_outputs).overrides do
   description <<"EOF"
 MZConvert EC2 instances, configured by Chef. ELB. Route53 record: mzconvert.#{ENV['private_domain']}.
 EOF
@@ -37,8 +36,7 @@ EOF
   dynamic!(:auto_scaling_group, 'mzconvert',
            :launch_config => :mzconvert_auto_scaling_launch_configuration,
            :subnet_ids => registry!(:my_private_subnet_ids),
-           :load_balancers => _array(ref!(:mzconvert_elastic_load_balancing_load_balancer)),
-           :notification_topic => registry!(:my_sns_topics, ENV['notification_topic'])
+           :load_balancers => _array(ref!(:mzconvert_elastic_load_balancing_load_balancer))
           )
 
   dynamic!(:record_set, 'mzconvert',

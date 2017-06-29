@@ -1,9 +1,8 @@
 ENV['sg']                 ||= 'private_sg'
-ENV['chef_run_list']      ||= 'role[mzconvert]'
+ENV['chef_run_list']      ||= 'recipe[ascent_monitoring::mzconvert]'
 ENV['lb_name']            ||= "#{ENV['org']}-#{ENV['environment']}-slowconvert-elb"
-ENV['notification_topic'] ||= "#{ENV['org']}_#{ENV['environment']}_deregister_chef_node"
 
-SparkleFormation.new('slowconvert').load(:base, :chef_base, :win2k8_ami, :ssh_key_pair, :git_rev_outputs).overrides do
+SparkleFormation.new('slowconvert').load(:base, :win2016_ami, :ssh_key_pair, :git_rev_outputs).overrides do
   description <<"EOF"
 MZConvert EC2 instances, configured by Chef. ELB. Route53 record: slowconvert.#{ENV['private_domain']}.
 EOF
@@ -31,14 +30,25 @@ EOF
            :volume_count => ENV['volume_count'].to_i,
            :volume_size => ENV['volume_size'].to_i,
            :security_groups => _array( registry!(:my_security_group_id) ),
-           :chef_run_list => ENV['chef_run_list']
+           :chef_run_list => ENV['chef_run_list'],
+           :chef_attributes => {
+             'datadog' => {
+               'api_key' => ENV['dd_api_key'],
+               'app_key' => ENV['dd_app_key'],
+               'collect_ec2_tags' => 'yes',
+               'dogstatsd' => false,
+               'use_ec2_instance_id' => false,
+               'agent_version' => {
+                 'windows' => ENV['dd_agent_version']
+               }
+             }
+           }
           )
 
   dynamic!(:auto_scaling_group, 'slowconvert',
            :launch_config => :slowconvert_auto_scaling_launch_configuration,
            :subnet_ids => registry!(:my_private_subnet_ids),
-           :load_balancers => _array(ref!(:slowconvert_elastic_load_balancing_load_balancer)),
-           :notification_topic => registry!(:my_sns_topics, ENV['notification_topic'])
+           :load_balancers => _array(ref!(:slowconvert_elastic_load_balancing_load_balancer))
           )
 
   dynamic!(:record_set, 'slowconvert',

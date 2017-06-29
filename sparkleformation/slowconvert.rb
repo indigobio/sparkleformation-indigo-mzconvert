@@ -30,7 +30,19 @@ EOF
            :volume_count => ENV['volume_count'].to_i,
            :volume_size => ENV['volume_size'].to_i,
            :security_groups => _array( registry!(:my_security_group_id) ),
-           :chef_run_list => ENV['chef_run_list']
+           :chef_run_list => ENV['chef_run_list'],
+           :chef_attributes => {
+             'datadog' => {
+               'api_key' => ENV['dd_api_key'],
+               'app_key' => ENV['dd_app_key'],
+               'collect_ec2_tags' => 'yes',
+               'dogstatsd' => false,
+               'use_ec2_instance_id' => false,
+               'agent_version' => {
+                 'windows' => ENV['dd_agent_version']
+               }
+             }
+           }
           )
 
   dynamic!(:auto_scaling_group, 'slowconvert',

@@ -115,7 +115,8 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
            :chef_run_list => ref!("#{_name}_chef_run_list".to_sym),
            :iam_role => ref!(_config[:iam_role]),
            :chef_data_bag_secret => true,
-           :cookbook_tarball => 'mzconvert/cookbooks.tar.gz'
+           :cookbook_tarball => 'mzconvert/cookbooks.tar.gz',
+           :chef_attributes => _config[:chef_attributes]
           )
 
   dynamic!(:auto_scaling_launch_configuration, _name).depends_on "#{_name.capitalize}IAMInstanceProfile"

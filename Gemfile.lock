@@ -40,16 +40,17 @@ GIT
       aws-sdk-core (~> 2)
 
 GIT
+  remote: https://github.com/gswallow/sparkle-pack-cfn-init-chef.git
+  revision: c360972db2b5855e5fdda9400e7965bc4553d480
+  specs:
+    sparkle-pack-cfn-init-chef (0.0.5)
+      sparkle_formation
+
+GIT
   remote: https://github.com/gswallow/sparkle-pack-git-rev-outputs.git
   revision: 146e854160fbd15c4ab6e851576756f0c313676a
   specs:
     sparkle-pack-git-rev-outputs (0.0.1)
-
-PATH
-  remote: /Users/gswallow/src/sparkle-pack-cfn-init-chef
-  specs:
-    sparkle-pack-cfn-init-chef (0.0.5)
-      sparkle_formation
 
 GEM
   remote: https://rubygems.org/
@@ -58,7 +59,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     attribute_struct (0.4.2)
       bogo (>= 0.1.31, < 0.3.0)
-    aws-sdk-core (2.10.3)
+    aws-sdk-core (2.10.6)
       aws-sigv4 (~> 1.0)
       jmespath (~> 1.0)
     aws-sigv4 (1.0.0)

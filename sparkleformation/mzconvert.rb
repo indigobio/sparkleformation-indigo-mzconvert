@@ -1,11 +1,11 @@
-ENV['sg']                 ||= 'private_sg'
-ENV['chef_run_list']      ||= 'recipe[ascent_monitoring::mzconvert]'
-ENV['lb_name']            ||= "#{ENV['org']}-#{ENV['environment']}-mzconvert-elb"
-
 SparkleFormation.new('mzconvert').load(:base, :win2016_ami, :ssh_key_pair, :git_rev_outputs).overrides do
   description <<"EOF"
 MZConvert EC2 instances, configured by Chef. ELB. Route53 record: mzconvert.#{ENV['private_domain']}.
 EOF
+
+  ENV['sg']                 ||= 'private_sg'
+  ENV['chef_run_list']      ||= 'recipe[ascent_monitoring::mzconvert]'
+  ENV['lb_name']            ||= "#{ENV['org']}-#{ENV['environment']}-mzconvert-elb"
 
   dynamic!(:iam_instance_profile, 'mzconvert',
            :chef_bucket => registry!(:my_s3_bucket, 'chef')

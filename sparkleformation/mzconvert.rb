@@ -23,6 +23,18 @@ EOF
            :lb_name => ENV['lb_name']
   )
 
+  dynamic!(:elb, 'slowconvert',
+           :listeners => [
+             { :instance_port => '80', :instance_protocol => 'tcp', :load_balancer_port => '80', :protocol => 'tcp'}
+           ],
+           :policies => [ ],
+           :security_groups => _array( registry!(:my_security_group_id) ),
+           :idle_timeout => '600',
+           :subnets => registry!(:my_private_subnet_ids),
+           :scheme => 'internal',
+           :lb_name => "#{ENV['org']}-#{ENV['environment']}-slowconvert-elb"
+  )
+
   dynamic!(:launch_config, 'mzconvert',
            :iam_instance_profile => 'MzconvertIAMInstanceProfile',
            :iam_role => 'MzconvertIAMRole',
@@ -51,9 +63,23 @@ EOF
            :load_balancers => _array(ref!(:mzconvert_elastic_load_balancing_load_balancer))
           )
 
+  dynamic!(:auto_scaling_group, 'slowconvert',
+           :launch_config => :mzconvert_auto_scaling_launch_configuration,
+           :subnet_ids => registry!(:my_private_subnet_ids),
+           :load_balancers => _array(ref!(:slowconvert_elastic_load_balancing_load_balancer))
+          )
+
   dynamic!(:record_set, 'mzconvert',
            :record => 'mzconvert',
            :target => :mzconvert_elastic_load_balancing_load_balancer,
+           :domain_name => ENV['private_domain'],
+           :attr => 'DNSName',
+           :ttl => '60'
+  )
+
+  dynamic!(:record_set, 'slowconvert',
+           :record => 'slowconvert',
+           :target => :slowconvert_elastic_load_balancing_load_balancer,
            :domain_name => ENV['private_domain'],
            :attr => 'DNSName',
            :ttl => '60'

@@ -1,4 +1,4 @@
-SparkleFormation.new('mzconvert').load(:base, :win2016_ami, :ssh_key_pair, :git_rev_outputs).overrides do
+SparkleFormation.new('mzconvert').load(:base, :win2k8_ami, :ssh_key_pair, :git_rev_outputs).overrides do
   description <<"EOF"
 MZConvert EC2 instances, configured by Chef. ELB. Route53 record: mzconvert.#{ENV['private_domain']}.
 EOF

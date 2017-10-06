@@ -11,6 +11,10 @@ EOF
            :chef_bucket => registry!(:my_s3_bucket, 'chef')
           )
 
+  dynamic!(:iam_instance_profile, 'slowconvert',
+           :chef_bucket => registry!(:my_s3_bucket, 'chef')
+          )
+
   dynamic!(:elb, 'mzconvert',
            :listeners => [
              { :instance_port => '80', :instance_protocol => 'tcp', :load_balancer_port => '80', :protocol => 'tcp'}
@@ -58,8 +62,8 @@ EOF
           )
 
   dynamic!(:launch_config, 'slowconvert',
-           :iam_instance_profile => 'MzconvertIAMInstanceProfile',
-           :iam_role => 'MzconvertIAMRole',
+           :iam_instance_profile => 'SlowconvertIAMInstanceProfile',
+           :iam_role => 'SlowconvertIAMRole',
            :create_ebs_volumes => false,
            :volume_count => ENV['volume_count'].to_i,
            :volume_size => ENV['volume_size'].to_i,

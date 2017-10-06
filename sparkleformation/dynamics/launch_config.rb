@@ -110,12 +110,14 @@ SparkleFormation.dynamic(:launch_config) do |_name, _config = {}|
                        )
   end
 
-  dynamic!(:auto_scaling_launch_configuration, _name).registry!(:windows_chef_solo, _name,
+  dynamic!(:auto_scaling_launch_configuration, _name).registry!(:windows_chef_client, _name,
            :chef_bucket => registry!(:my_s3_bucket, 'chef'),
+           :chef_server => ref!(:chef_server),
+           :chef_version => ref!(:chef_version),
            :chef_run_list => ref!("#{_name}_chef_run_list".to_sym),
            :iam_role => ref!(_config[:iam_role]),
+           :chef_validation_client => ref!(:chef_validation_client_name),
            :chef_data_bag_secret => true,
-           :cookbook_tarball => 'mzconvert/cookbooks.tar.gz',
            :chef_attributes => _config[:chef_attributes]
           )
 

@@ -41,7 +41,7 @@ GIT
 
 GIT
   remote: https://github.com/gswallow/sparkle-pack-cfn-init-chef.git
-  revision: 170780c27d917ea84159fc52c25fc8682b5d5de0
+  revision: 6c7b74adca47bba155c4117fd343dc77570fd625
   specs:
     sparkle-pack-cfn-init-chef (0.0.6)
       sparkle_formation
